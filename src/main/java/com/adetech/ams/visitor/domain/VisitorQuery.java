@@ -7,6 +7,7 @@ package com.adetech.ams.visitor.domain;
 
 import com.google.auto.value.AutoValue;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,19 +16,19 @@ import java.util.List;
 @AutoValue
 public abstract class VisitorQuery {
 
-    public abstract String firstName();
+    public abstract Optional<String> firstName();
 
-    public abstract String lastName();
+    public abstract Optional<String> lastName();
 
-    public abstract String phoneNumber();
+    public abstract Optional<String> phoneNumber();
 
-    public abstract String email();
+    public abstract Optional<String> email();
 
-    public abstract String companyId();
+    public abstract Optional<String> companyId();
 
-    public abstract String visitorId();
+    public abstract Optional<String> visitorId();
 
-    public abstract List<String> visitorIds();
+    public abstract Optional<List<String>> visitorIds();
     
     public static Builder builder(){
         return new AutoValue_VisitorQuery.Builder();
@@ -36,19 +37,19 @@ public abstract class VisitorQuery {
     @AutoValue.Builder
     public abstract static class Builder {
 
-        public abstract Builder firstName(String firstName);
+        public abstract Builder firstName(Optional<String> firstName);
 
-        public abstract Builder lastName(String lastName);
+        public abstract Builder lastName(Optional<String> lastName);
 
-        public abstract Builder phoneNumber(String phoneNumber);
+        public abstract Builder phoneNumber(Optional<String> phoneNumber);
 
-        public abstract Builder email(String email);
+        public abstract Builder email(Optional<String> email);
 
-        public abstract Builder companyId(String companyId);
+        public abstract Builder companyId(Optional<String> companyId);
 
-        public abstract Builder visitorId(String visitorId);
+        public abstract Builder visitorId(Optional<String> visitorId);
 
-        public abstract Builder visitorIds(List<String> visitorIds);
+        public abstract Builder visitorIds(Optional<List<String>> visitorIds);
         
         public abstract VisitorQuery build();
 

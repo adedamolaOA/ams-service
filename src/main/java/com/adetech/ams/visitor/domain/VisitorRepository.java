@@ -15,10 +15,13 @@ import java.util.Optional;
  */
 public interface VisitorRepository {
     
-    public Visitor saveUpdate(Visitor visitor);
+    public Optional<Visitor> saveUpdate(Visitor visitor);
     public List<Visitor> getVisitors(Optional<VisitorQuery> query);
     default List<Visitor> getVisitors(){
         return getVisitors(Optional.empty());
+    }
+    default Optional<Visitor> getVisitorById(String id){
+        return getVisitors(Optional.of(VisitorQuery.builder().visitorId(Optional.of(id)).build())).stream().findFirst();
     }
     public Visitor delete();
 }

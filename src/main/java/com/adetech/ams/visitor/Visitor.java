@@ -5,6 +5,7 @@
  */
 package com.adetech.ams.visitor;
 
+import com.adetech.ams.common.domain.DataCreation;
 import com.google.auto.value.AutoValue;
 import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.Optional;
@@ -31,6 +32,8 @@ public abstract class Visitor {
     public abstract Optional<Company> company();
 
     public abstract Optional<Address> address();
+    
+    public abstract DataCreation dataCreation();
 
     /**
      *
@@ -52,7 +55,8 @@ public abstract class Visitor {
             Phonenumber.PhoneNumber phoneNumber,
             Optional<String> email,
             Optional<Company> company,
-            Optional<Address> address
+            Optional<Address> address,
+            DataCreation dataCreation
     ) {
         return builder().address(address)
                 .firstName(firstName)
@@ -62,6 +66,7 @@ public abstract class Visitor {
                 .email(email)
                 .company(company)
                 .address(address)
+                .dataCreation(dataCreation)
                 .build();
     }
 
@@ -87,19 +92,23 @@ public abstract class Visitor {
         public abstract Builder company(Optional<Company> company);
 
         public abstract Builder address(Optional<Address> address);
+        
+        public abstract Builder dataCreation(DataCreation auditEvent);
 
         public abstract Visitor build();
     }
 
     @AutoValue
     public abstract static class Company {
+        
+        public abstract String id();
 
         public abstract String name();
 
         public abstract Address address();
         
-        public static Company create(String name, Address address){
-            return builder().name(name).address(address).build();
+        public static Company create(String id, String name, Address address){
+            return builder().id(id).name(name).address(address).build();
         }
         
         public static Builder builder(){
@@ -108,6 +117,7 @@ public abstract class Visitor {
         
         @AutoValue.Builder
         public abstract static class Builder{
+            public abstract Builder id(String id);
             public abstract Builder name(String name);
             public abstract Builder address(Address address);
             public abstract Company build();
@@ -116,6 +126,8 @@ public abstract class Visitor {
 
     @AutoValue
     public abstract static class Address {
+        
+        public abstract String id();
 
         public abstract String streetName();
 
@@ -127,6 +139,8 @@ public abstract class Visitor {
         
         @AutoValue.Builder
         public abstract static class Builder{
+            
+            public abstract Builder id(String id);
             public abstract Builder streetName(String streetName);
             public abstract Builder buildingNumber(String buildingNumber);
             public abstract Builder unitNo(String unitNo);
