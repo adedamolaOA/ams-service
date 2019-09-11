@@ -7,6 +7,7 @@ package com.adetech.ams.visitor.domain;
 
 import com.adetech.ams.visitor.Visitor;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -15,6 +16,9 @@ import java.util.List;
 public interface VisitorRepository {
     
     public Visitor saveUpdate(Visitor visitor);
-    public List<Visitor> getVisitors();
+    public List<Visitor> getVisitors(Optional<VisitorQuery> query);
+    default List<Visitor> getVisitors(){
+        return getVisitors(Optional.empty());
+    }
     public Visitor delete();
 }
