@@ -23,5 +23,5 @@ public interface VisitorRepository {
     default Optional<Visitor> getVisitorById(String id){
         return getVisitors(Optional.of(VisitorQuery.builder().visitorId(Optional.of(id)).build())).stream().findFirst();
     }
-    public Visitor delete();
+    public Optional<Visitor> delete(String id);
 }
