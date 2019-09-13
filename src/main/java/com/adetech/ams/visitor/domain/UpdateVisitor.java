@@ -7,8 +7,6 @@ package com.adetech.ams.visitor.domain;
 
 import com.adetech.ams.common.domain.AddressType;
 import com.adetech.ams.common.domain.Status;
-import com.adetech.ams.visitor.Visitor;
-import static com.adetech.ams.visitor.Visitor.Address.builder;
 import com.google.auto.value.AutoValue;
 import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.Optional;

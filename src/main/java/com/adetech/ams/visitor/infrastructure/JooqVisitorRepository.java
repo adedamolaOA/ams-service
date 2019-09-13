@@ -201,7 +201,7 @@ public class JooqVisitorRepository extends JooqRepository implements VisitorRepo
                             dataCreation.createdBy(),
                             dataCreation.createdDateTime(),
                             dataCreation.status().name()
-                    ).onDuplicateKeyUpdate().set(ADDRESSES.STREETNAME, address.streetName()).execute();
+                    ).execute();
         });
     }
 

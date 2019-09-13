@@ -56,7 +56,7 @@ public class CreateVisitorDto {
         );
     }
 
-    public class CompanyDto {
+    public static class CompanyDto {
 
         @NotNull
         public String name;
