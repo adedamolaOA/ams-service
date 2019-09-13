@@ -1,18 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.adetech.ams.visitor.domain;
 
-import com.adetech.ams.common.domain.DataCreation;
-import com.adetech.ams.common.domain.Status;
-import com.adetech.ams.utils.Cuid;
-import com.adetech.ams.visitor.Visitor;
+import com.adetech.ams.common.domain.AddressType;
 import com.google.auto.value.AutoValue;
 import com.google.i18n.phonenumbers.Phonenumber;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Optional;
 
 /**
@@ -92,9 +82,9 @@ public abstract class CreateVisitor {
 
         public abstract String name();
 
-        public abstract Address address();
+        public abstract Optional<Address>  address();
 
-        public static Company create(String name, Address address) {
+        public static Company create(String name, Optional<Address>  address) {
             return builder().name(name).address(address).build();
         }
 
@@ -107,7 +97,7 @@ public abstract class CreateVisitor {
 
             public abstract Builder name(String name);
 
-            public abstract Builder address(Address address);
+            public abstract Builder address(Optional<Address>  address);
 
             public abstract Company build();
         }
@@ -123,9 +113,11 @@ public abstract class CreateVisitor {
         public abstract Optional<String> unitNo();
 
         public abstract Optional<String> otherDescriptions();
+        
+        public abstract AddressType type();
 
-        public static Address create(String streetName, String buildingNumber, Optional<String> unitNo, Optional<String> otherDescription) {
-            return builder().buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).build();
+        public static Address create(String streetName, String buildingNumber, Optional<String> unitNo, Optional<String> otherDescription, AddressType type) {
+            return builder().buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).type(type).build();
         }
 
         public static Builder builder() {
@@ -142,6 +134,8 @@ public abstract class CreateVisitor {
             public abstract Builder unitNo(Optional<String> unitNo);
 
             public abstract Builder otherDescriptions(Optional<String> otherDescriptions);
+            
+            public abstract Builder type(AddressType type);
 
             public abstract Address build();
         }

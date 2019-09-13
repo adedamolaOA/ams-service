@@ -6,6 +6,7 @@
 package com.adetech.ams.visitor.infrastructure.dto;
 
 import com.adetech.ams.visitor.Visitor;
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
@@ -84,17 +85,18 @@ public class VisitorDto {
         @NotNull
         public  String name;
 
-        @NotNull
+        @Nullable
         public  AddressDto address;
         
         
-        public CompanyDto(String name, AddressDto address){
+        public CompanyDto(String name, @Nullable AddressDto address){
             this.name = name;
             this.address = address;
         }
         
         public static CompanyDto fromDomain(Visitor.Company company){
-            return new CompanyDto(company.name(), AddressDto.fromDomain(company.address()));
+            Optional<Visitor.Address> address = company.address();
+            return new CompanyDto(company.name(), address.isPresent() ? AddressDto.fromDomain(address.get()) : null);
         }
         
        
@@ -115,11 +117,15 @@ public class VisitorDto {
         @Nullable
         public  String otherDescriptions;
         
-        public AddressDto(String streetName,  String buildingNumber, @Nullable String unitNo, @Nullable String otherDescriptions){
+        @NotNull
+        public String type;
+        
+        public AddressDto(String streetName,  String buildingNumber, @Nullable String unitNo, @Nullable String otherDescriptions, String type){
             this.buildingNumber = buildingNumber;
             this.otherDescriptions = otherDescriptions;
             this.streetName = streetName;
             this.unitNo = unitNo;
+            this.type = type;
         }
         
         public static AddressDto fromDomain(Visitor.Address address){
@@ -127,7 +133,8 @@ public class VisitorDto {
                     address.streetName(),
                     address.buildingNumber(), 
                     address.unitNo().orElse("None"), 
-                    address.otherDescriptions().orElse("None")
+                    address.otherDescriptions().orElse("None"),
+                    address.type().name()
             );
         }
         

@@ -13,6 +13,7 @@ import com.adetech.ams.visitor.infrastructure.dto.VisitorDto;
 import com.adetech.ams.visitor.infrastructure.dto.inbound.CreateVisitorDto;
 import com.adetech.ams.visitor.infrastructure.dto.inbound.UpdateVisitorDto;
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class VisitorController {
     @PostMapping("/")
     public VisitorDto add(@Valid @RequestBody CreateVisitorDto dto) throws NotFoundException{
         Visitor visitor = VisitorService.toVisitor(dto.toDomain());
-        return VisitorDto.fromDomain(service.saveUpdate(visitor));
+        return VisitorDto.fromDomain(service.add(visitor));
     }
     
     @GetMapping("/{id}")
@@ -46,10 +47,14 @@ public class VisitorController {
         return VisitorDto.fromDomain(service.getVisitorById(id));
     }
     
-    @PutMapping("/update")
-    public VisitorDto update(@Valid @RequestBody UpdateVisitorDto dto) throws NotFoundException{
-        Visitor visitor = VisitorService.toVisitor(dto.toDomain());
-        return VisitorDto.fromDomain(service.saveUpdate(visitor));
+    @PutMapping("/{id}")
+    public VisitorDto update(@PathVariable String id, @Valid @RequestBody UpdateVisitorDto dto) throws NotFoundException{
+        return VisitorDto.fromDomain(service.update(id, dto.toDomain()));
+    }
+    
+    @DeleteMapping("/{id}")
+    public VisitorDto delete(@PathVariable String id) throws NotFoundException{
+        return VisitorDto.fromDomain(service.delete(id));      
     }
     
 }

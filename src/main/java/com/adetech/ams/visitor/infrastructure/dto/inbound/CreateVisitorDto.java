@@ -6,6 +6,7 @@
  */
 package com.adetech.ams.visitor.infrastructure.dto.inbound;
 
+import com.adetech.ams.common.domain.AddressType;
 import com.adetech.ams.visitor.domain.CreateVisitor;
 import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.Optional;
@@ -60,7 +61,7 @@ public class CreateVisitorDto {
         @NotNull
         public String name;
 
-        @NotNull
+        @Nullable
         public AddressDto address;
 
         public CompanyDto(String name, AddressDto address) {
@@ -69,7 +70,7 @@ public class CreateVisitorDto {
         }
 
         public Optional<CreateVisitor.Company> toDomain() {
-            return Optional.of(CreateVisitor.Company.create(name, address.toDomain().orElseThrow()));
+            return Optional.of(CreateVisitor.Company.create(name, Optional.ofNullable(address.toDomain().orElse(null))));
         }
 
     }
@@ -87,16 +88,19 @@ public class CreateVisitorDto {
 
         @Nullable
         public String otherDescriptions;
+        @NotNull
+        public String type; 
 
-        public AddressDto(String streetName, String buildingNumber, @Nullable String unitNo, @Nullable String otherDescriptions) {
+        public AddressDto(String streetName, String buildingNumber, @Nullable String unitNo, @Nullable String otherDescriptions, String type) {
             this.buildingNumber = buildingNumber;
             this.otherDescriptions = otherDescriptions;
             this.streetName = streetName;
             this.unitNo = unitNo;
+            this.type = type;
         }
 
         public Optional<CreateVisitor.Address> toDomain() {
-            return  Optional.of(CreateVisitor.Address.create(streetName, buildingNumber, Optional.ofNullable(unitNo), Optional.ofNullable(otherDescriptions)));              
+            return  Optional.of(CreateVisitor.Address.create(streetName, buildingNumber, Optional.ofNullable(unitNo), Optional.ofNullable(otherDescriptions), AddressType.valueOf(type)));              
           
         }
 

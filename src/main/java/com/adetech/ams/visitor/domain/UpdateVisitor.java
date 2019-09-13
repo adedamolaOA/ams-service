@@ -5,6 +5,7 @@
  */
 package com.adetech.ams.visitor.domain;
 
+import com.adetech.ams.common.domain.AddressType;
 import com.adetech.ams.common.domain.Status;
 import com.adetech.ams.visitor.Visitor;
 import static com.adetech.ams.visitor.Visitor.Address.builder;
@@ -34,6 +35,8 @@ public abstract class UpdateVisitor {
     public abstract Optional<Address> address();
 
     public abstract Optional<Status> status();
+    
+    public abstract String updatedBy();
 
     
     public static UpdateVisitor create(
@@ -44,7 +47,8 @@ public abstract class UpdateVisitor {
             Optional<String> email,
             Optional<Company> company,
             Optional<Address> address,
-            Optional<Status> status
+            Optional<Status> status,
+            String updatedBy
     ) {
         return builder()
                 .address(address)
@@ -56,6 +60,7 @@ public abstract class UpdateVisitor {
                 .company(company)
                 .address(address)
                 .status(status)
+                .updatedBy(updatedBy)
                 .build();
     }
 
@@ -81,6 +86,8 @@ public abstract class UpdateVisitor {
         public abstract Builder address(Optional<Address> address);
 
         public abstract Builder status(Optional<Status> status);
+        
+        public abstract Builder updatedBy(String updatedBy);
 
         public abstract UpdateVisitor build();
     }
@@ -121,9 +128,11 @@ public abstract class UpdateVisitor {
         public abstract Optional<String> unitNo();
 
         public abstract Optional<String> otherDescriptions();
+        
+        public abstract AddressType type();
 
-        public static Address create(Optional<String> streetName, Optional<String> buildingNumber, Optional<String> unitNo, Optional<String> otherDescription){
-            return builder().buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).build();
+        public static Address create(Optional<String> streetName, Optional<String> buildingNumber, Optional<String> unitNo, Optional<String> otherDescription, AddressType type){
+            return builder().buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).type(type).build();
         }
         public static Builder builder() {
             return new AutoValue_UpdateVisitor_Address.Builder();
@@ -139,6 +148,8 @@ public abstract class UpdateVisitor {
             public abstract Builder unitNo(Optional<String> unitNo);
 
             public abstract Builder otherDescriptions(Optional<String> otherDescriptions);
+            
+            public abstract Builder type(AddressType type);
 
             public abstract Address build();
         }

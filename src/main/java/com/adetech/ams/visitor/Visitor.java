@@ -5,9 +5,8 @@
  */
 package com.adetech.ams.visitor;
 
+import com.adetech.ams.common.domain.AddressType;
 import com.adetech.ams.common.domain.DataCreation;
-import com.adetech.ams.visitor.domain.CreateVisitor;
-import static com.adetech.ams.visitor.domain.CreateVisitor.Address.builder;
 import com.google.auto.value.AutoValue;
 import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.Optional;
@@ -110,9 +109,9 @@ public abstract class Visitor {
 
         public abstract String name();
 
-        public abstract Address address();
+        public abstract Optional<Address>  address();
         
-        public static Company create(String id, String name, Address address){
+        public static Company create(String id, String name, Optional<Address>  address){
             return builder().id(id).name(name).address(address).build();
         }
         
@@ -124,7 +123,7 @@ public abstract class Visitor {
         public abstract static class Builder{
             public abstract Builder id(String id);
             public abstract Builder name(String name);
-            public abstract Builder address(Address address);
+            public abstract Builder address(Optional<Address> address);
             public abstract Company build();
         }
     }
@@ -144,9 +143,11 @@ public abstract class Visitor {
 
         public abstract Optional<String> otherDescriptions();
         
+        public abstract AddressType type();
+        
          
-        public static Address create(String id,String distictId, String streetName, String buildingNumber, Optional<String> unitNo, Optional<String> otherDescription){
-            return builder().id(id).distictId(distictId).buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).build();
+        public static Address create(String id,String distictId, String streetName, String buildingNumber, Optional<String> unitNo, Optional<String> otherDescription, AddressType type){
+            return builder().id(id).distictId(distictId).buildingNumber(buildingNumber).streetName(streetName).otherDescriptions(otherDescription).unitNo(unitNo).type(type).build();
         }
         
         public static Builder builder(){
@@ -161,6 +162,7 @@ public abstract class Visitor {
             public abstract Builder unitNo(Optional<String> unitNo);
             public abstract Builder otherDescriptions(Optional<String> otherDescriptions);
             public abstract Builder distictId(String distictId);
+            public abstract Builder type(AddressType type);
             public abstract Address build();
         }
       
