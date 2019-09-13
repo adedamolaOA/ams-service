@@ -75,7 +75,7 @@ public interface Deserializer {
      }
      
      default VisitorDO deserializeVisitorDO(Record r){
-         return VisitorDO.create(r.get(VISITORS.VISITORID), Optional.ofNullable(r.get(COMPANY.COMPANYID)), Optional.ofNullable(r.get(ADDRESSES.DISTICTID)));
+         return VisitorDO.create(r.get(VISITORS.VISITORID), Optional.ofNullable(r.get(COMPANY.COMPANYID)), Optional.ofNullable(r.get(ADDRESSES.ADDRESSID)));
      }
 
 }

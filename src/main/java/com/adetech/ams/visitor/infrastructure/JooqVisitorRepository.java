@@ -50,13 +50,14 @@ public class JooqVisitorRepository extends JooqRepository implements VisitorRepo
     public Optional<Visitor> saveUpdate(Visitor visitor) {
         getDSLContext(DBContext.WRITE).transaction((tx) -> {
             DSLContext context = tx.dsl();
-            if (visitor.company().isPresent()) {
-                Visitor.Company company = visitor.company().get();
-                DataCreation dataCreation = visitor.dataCreation();
+            DataCreation dataCreation = visitor.dataCreation();
+            visitor.company().ifPresent(company -> {               
                 Optional<Visitor.Address> address = company.address();
+                System.out.println(address);
                 saveVisitorCompany(context, company, dataCreation);
                 saveAddress(context, address, dataCreation);
-            }
+            });
+            visitor.address().ifPresent( address -> saveAddress(context, Optional.ofNullable(address), dataCreation));
             saveVisitor(context, visitor);
         });
         return VisitorRepository.super.getVisitorById(visitor.visitorId());
@@ -347,7 +348,7 @@ public class JooqVisitorRepository extends JooqRepository implements VisitorRepo
                         address.buildingNumber().ifPresent(buillding -> updateStep.set(ADDRESSES.BUILDINGNUMBER, buillding));
                         address.unitNo().ifPresent(unit -> updateStep.set(ADDRESSES.UNITNUMBER, unit));
                         address.otherDescriptions().ifPresent(description -> updateStep.set(ADDRESSES.DESCRIPTION, description));
-                        updateStep.where(ADDRESSES.ADDRESSID.eq(id)).and(ADDRESSES.TYPE.eq(address.type().name())).execute();
+                        updateStep.where(ADDRESSES.ADDRESSID.eq(id)).execute();
                     }, () -> {
                         String id = Cuid.createCuid();
                         Visitor.Address visitorAddress = Visitor.Address.create(id, distictId, address.streetName().get(), address.buildingNumber().get(), address.unitNo(), address.otherDescriptions(), address.type());
